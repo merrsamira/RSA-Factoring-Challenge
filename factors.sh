@@ -1,20 +1,49 @@
 #!/usr/bin/env bash
-# Factorize as many numbers as possible into a product of two smaller numbers.
+# is a factors challenge
 
-while IFS= read -r LINE
-do
-	let FLAG=1
-	let DIV=2
-	while [ $FLAG -eq 1 ]
-	do
-		let REST=$(($LINE%$DIV))
-		if [[ $REST -eq 0 ]]
-		then
-			let NUM=$LINE
-			let COUNT=$(($NUM/$DIV))
-			echo "$LINE=$COUNT*$DIV"
-			let FLAG=0
-		fi
-		let DIV=$(($DIV+1))
-	done
-done < $1
+check_factor()
+{
+	if [ $# -ne 3 ];
+        then
+                args=("$@")
+                count=0
+                num2=1
+                for a in ${args[*]};
+                do
+                        if [ $count -gt 1 ];
+                        then
+                                num2=$(echo $a*$num2 | bc)
+                        fi
+                        count=$((count + 1))
+                done
+        else
+                num2=$3
+        fi
+
+        num1=$2
+        num=$(echo "$1" | tr ':' '=')
+
+        result=$(echo "if($num2 > $num1) 1 else 0" | bc)
+	        if ((result == 1)); then
+		        numcp=$num1
+		        num1=$num2
+		        num2=$numcp
+                fi
+
+        echo "$num$num1*$num2"
+}
+
+if [ $# -ne 1 ]
+then
+        echo 'Usage: factors <file>'
+        exit 1
+else
+
+        while read i
+        do
+
+                result=$(factor "$i")
+                check_factor $result
+
+        done < "$1"
+fi
