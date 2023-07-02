@@ -9,7 +9,7 @@
 
 int main(int argc, char *argv[])
 {
-	FILE *str;
+	FILE *stream;
 	char *line = NULL;
 	size_t len = 0;
 	long long flag = 1, div, rest, number, counter;
@@ -20,13 +20,13 @@ int main(int argc, char *argv[])
 		exit(EXIT_FAILURE);
 	}
 
-	str = fopen(argv[1], "r");
-	if (str == NULL) {
+	stream = fopen(argv[1], "r");
+	if (stream == NULL) {
 		perror("fopen");
 		exit(EXIT_FAILURE);
 	}
 
-	while ((nread = getline(&line, &len, str)) != -1) {
+	while ((nread = getline(&line, &len, stream)) != -1) {
 		flag = 1, div = 2;
 		number = atoll(line);
 		while (flag) {
@@ -41,6 +41,6 @@ int main(int argc, char *argv[])
 	}
 
 	free(line);
-	fclose(str);
+	fclose(stream);
 	exit(EXIT_SUCCESS);
 }
