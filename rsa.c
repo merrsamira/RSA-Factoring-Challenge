@@ -3,7 +3,7 @@
 /**
  * main - main function
  *
- *
+ * Author: Thaoban Abdrasheed
  * Return: void
  */
 int main(int argc, char *argv[])
@@ -29,5 +29,5 @@ int main(int argc, char *argv[])
 	{
 		factorize(buffer);
 	}
-	return (0);
+return (0);
 }
